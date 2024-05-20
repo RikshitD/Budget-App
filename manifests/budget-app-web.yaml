@@ -1,8 +1,7 @@
-# budget-app-web.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: budget-app-web-deployment
+  name: budget-app-web
 spec:
   replicas: 1
   selector:
@@ -15,7 +14,7 @@ spec:
     spec:
       containers:
         - name: budget-app-web
-          image: rikshitd/budget-app-web:latest
+          image: krishnavamshi933/budget-app-web:latest
           ports:
             - containerPort: 3000
           env:
@@ -37,6 +36,6 @@ spec:
     app: budget-app-web
   ports:
     - protocol: TCP
-      port: 80
+      port: 3000  # Use a specific port for NodePort
       targetPort: 3000
   type: NodePort
