@@ -1,9 +1,8 @@
 # budget-app-web.yaml
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: budget-app-web
+  name: budget-app-web-deployment
 spec:
   replicas: 1
   selector:
@@ -38,6 +37,6 @@ spec:
     app: budget-app-web
   ports:
     - protocol: TCP
-      port: 3000  # Use a specific port for NodePort
+      port: 80
       targetPort: 3000
   type: NodePort
