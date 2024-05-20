@@ -1,10 +1,9 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: postgres-statefulset
+  name: postgres-deployment
 spec:
   replicas: 1
-  serviceName: postgres-service
   selector:
     matchLabels:
       app: postgres
@@ -15,9 +14,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:latest
-          ports:
-            - containerPort: 5432
+          image: postgres:14.1
           env:
             - name: POSTGRES_DB
               value: budgy_development
@@ -25,11 +22,17 @@ spec:
               value: Budgy
             - name: POSTGRES_PASSWORD
               value: Budgy
-  volumeClaimTemplates:
-    - metadata:
-        name: postgres-storage
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
